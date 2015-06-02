@@ -282,6 +282,10 @@ class Rally(object):
             Preserve the current state of the rally connection, sans the loggers
             for pickle support
         """
+        # assuming we are about to pickle and persist the rally instance, we
+        # close the underlying requsts session, so we don't leak sockets
+        self.session.close()
+        
         ret=copy.copy(self.__dict__)
         del ret['_log']
         del ret['_logAttrGet']
