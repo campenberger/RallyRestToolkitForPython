@@ -284,7 +284,8 @@ class Rally(object):
         """
         # assuming we are about to pickle and persist the rally instance, we
         # close the underlying requsts session, so we don't leak sockets
-        self.session.close()
+        if self.session and hasattr(self.session,'close'):
+            self.session.close()
         
         ret=copy.copy(self.__dict__)
         del ret['_log']
